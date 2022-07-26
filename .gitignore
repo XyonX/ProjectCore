@@ -72,3 +72,12 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/UnrealEditor/Development/RD/color_sinks.cpp.json
+Content/ParagonMurdock/
+Plugins/
+Content/__ExternalActors__/Maps/CasualMap/1/3V/7PQX5A9LNZ21QRB5PHAB8B.uasset
+Content/__ExternalActors__/Maps/CasualMap/0/WR/0PK16XJV5E9I1EMHF1FICR.uasset
+Content/__ExternalActors__/
+Content/__ExternalObjects__/
+Content/Characters/
+Content/LevelPrototyping/
