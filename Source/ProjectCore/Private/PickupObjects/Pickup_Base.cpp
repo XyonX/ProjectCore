@@ -123,8 +123,12 @@ void APickup_Base::Interact_Implementation(ACoreCharacter* InstigatorCharacter)
 {
 	//ICoreInterface::Interact_Implementation(InstigatorCharacter);
 
-	Destroy();
+	if(bCanPickup)
+	{
+		Destroy();
 
+	}
+	
 
 	
 }

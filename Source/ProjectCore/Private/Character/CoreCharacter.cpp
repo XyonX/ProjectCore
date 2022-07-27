@@ -2,11 +2,13 @@
 
 
 #include "Character/CoreCharacter.h"
+#include "Character/CoreCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "AbilitySystemComponent.h"
 // Sets default values
 ACoreCharacter::ACoreCharacter()
 {
@@ -38,8 +40,14 @@ ACoreCharacter::ACoreCharacter()
 	IdleToWalkInterpTime = 0.5f;
 	TurnRate = 1.5f ;
 	LookUpRate = 1.5f ;
+
+
+	// creating Attribute Component For Character
+	AttributeComp = CreateDefaultSubobject<UCharacterAttributeComponent>("AttributeComp");
+
 	
-	
+	// Creating Ability System Component For Character
+	 AbilitySystemComp= CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
 	
 	
 
@@ -136,6 +144,27 @@ void ACoreCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	
 
+}
+
+UAbilitySystemComponent* ACoreCharacter::GetAbilitySystemComponent() const
+{
+
+	return AbilitySystemComp ;
+}
+
+void ACoreCharacter::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire)
+{
+
+	if(AbilitySystemComp)
+	{
+		if(HasAuthority() && AbilityToAquire)
+		{
+			AbilitySystemComp->GiveAbility(FGameplayAbilitySpec(AbilityToAquire,1,0));
+		}
+		AbilitySystemComp->InitAbilityActorInfo(this,this);
+	}
+
+	
 }
 
 /*

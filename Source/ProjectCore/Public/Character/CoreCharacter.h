@@ -3,17 +3,23 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/CharacterAttributeComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/CorePlayerController.h"
+#include "AbilitySystemInterface.h"
+#include "Abilities/GameplayAbility.h"
+#include "Abilities/GameplayAbility.h"
 #include "CoreCharacter.generated.h"
 
+class UAbilitySystemComponent ;
 
 class USpringArmComponent ;
 class UCameraComponent ;
 class APlayerController;
+class UCharacterAttributeComponent;
 UCLASS()
-class PROJECTCORE_API ACoreCharacter : public ACharacter
+class PROJECTCORE_API ACoreCharacter : public ACharacter , public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -68,19 +74,30 @@ public:
 
 	UPROPERTY(VisibleAnywhere ,BlueprintReadWrite ,Category = "Character ")
 	APlayerController*MyPlayerControlRef ;
-	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Character")
+	APlayerController* PlayerController ;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
 	// Setting Up Getters
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Character")
-	APlayerController* PlayerController ;
 	FORCEINLINE  UCameraComponent* GetCameraComponent () {return Camera; }
-	UFUNCTION()
-	 FORCEINLINE  APlayerController * GetPlayerController (){ return MyPlayerControlRef; }
+	FORCEINLINE  APlayerController * GetPlayerController (){ return MyPlayerControlRef; }
 
+	
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Character")
+	UCharacterAttributeComponent*AttributeComp;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Character")
+	UAbilitySystemComponent*AbilitySystemComp;
+
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const ;
+
+	FORCEINLINE UCharacterAttributeComponent* GetCharacterAttributeComp () {return AttributeComp; }
+	
+	UFUNCTION(BlueprintCallable,Category="Character")
+	void AquireAbility(TSubclassOf<UGameplayAbility>AbilityToAquire);
+	
 	
 
 };

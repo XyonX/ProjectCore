@@ -13,6 +13,16 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPickupCollisionDelegate ,AItem_Base
 
 class USphereComponent;
 class UWidgetComponent;
+
+
+UENUM()
+enum EPickupType
+{
+
+	PickableObject		UMETA(DisplayName = "PickupObjecs"), 
+	WorldObject			UMETA(DisplayName = "World Object"),
+};
+
 UCLASS(BlueprintType, Blueprintable)
 class PROJECTCORE_API APickup_Base : public AItem_Base , public ICoreInterface
 {
@@ -41,10 +51,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void InitPickup(EItemType ItemTypee,FText Namee , FText UI_Prefixx  , UStaticMeshComponent*StaticMeshh );
-	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	UFUNCTION()
-	void OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	UFUNCTION(BlueprintCallable)
+	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION(BlueprintCallable)
+	virtual void OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	// declaring delegates onpickup and onpickupend collision event 
 
@@ -63,7 +73,8 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Pickup")
 	UWidgetComponent*InteractWidget;
 
-	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Pickup")
+	EItemType PickUpObjectType ;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Pickup")
 	bool bCanPickup ;
 };
