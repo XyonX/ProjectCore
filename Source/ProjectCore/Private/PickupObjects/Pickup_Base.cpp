@@ -12,14 +12,10 @@ APickup_Base::APickup_Base()
 {
 	bReplicates = true ;
 
-	// create mesh for pickup mesh
-	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickupMesh"));
-	// making pickup mesh root component
-	SetRootComponent(PickupMesh);
-	// Setting Up Pickup Mesh Collision
-	PickupMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-	PickupMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn,ECollisionResponse::ECR_Ignore);
-	PickupMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	RootSceneComp = CreateDefaultSubobject<USceneComponent>("RootScene");
+	SetRootComponent(RootSceneComp);
+
 
 	// Creating Collision Sphere
 	CollisionSphere=CreateDefaultSubobject<USphereComponent>(TEXT("Collision Box"));
@@ -28,6 +24,18 @@ APickup_Base::APickup_Base()
 	CollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);*/
 	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this ,&APickup_Base::OnOverlapBegin);
 	CollisionSphere->OnComponentEndOverlap.AddDynamic(this,&APickup_Base::APickup_Base::OnComponentEndOverlap);
+
+	
+	// create mesh for pickup mesh
+	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickupMesh"));
+	// making pickup mesh root component
+	PickupMesh->SetupAttachment(CollisionSphere);
+	// Setting Up Pickup Mesh Collision
+	PickupMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+	PickupMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn,ECollisionResponse::ECR_Ignore);
+	PickupMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+
 	
 
 	// creating outline mesh 
@@ -72,12 +80,12 @@ void APickup_Base::BeginPlay()
 	}
 }
 
-void APickup_Base::InitPickup(EItemType ItemTypee, FText Namee, FText UI_Prefixx, UStaticMeshComponent* StaticMeshh)
+void APickup_Base::InitPickup(EItemType ItemTypee, FText Namee, FText UI_Prefixx, UStaticMesh* StaticMeshh)
 {
 
 	Init(ItemTypee,Namee);
 	UI_Prefix = UI_Prefixx;
-	PickupMesh = StaticMeshh;
+	PickupMesh->SetStaticMesh( StaticMeshh);
 }
 
 void APickup_Base::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -125,7 +133,12 @@ void APickup_Base::Interact_Implementation(ACoreCharacter* InstigatorCharacter)
 
 	if(bCanPickup)
 	{
+		
+		FActorSpawnParameters SpawnParam;
+		InstigatorCharacter->Weapon1_Primary = GetWorld()->SpawnActor<AItem_Weapon>(AItem_Weapon::StaticClass(),InstigatorCharacter->GetActorLocation(),InstigatorCharacter->GetActorRotation(),SpawnParam);
+		InstigatorCharacter->Weapon1_Primary->SetHidden(true);
 		Destroy();
+		InteractWidget->SetVisibility(false);
 
 	}
 	

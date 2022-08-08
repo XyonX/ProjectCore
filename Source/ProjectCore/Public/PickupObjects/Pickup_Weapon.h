@@ -16,10 +16,19 @@ class PROJECTCORE_API APickup_Weapon : public APickup_Base
 	APickup_Weapon();
 
 public:
+	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category ="Pickup_Weapon")
 	int Ammo ;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="PickupWeapon")
 	class UDataTable* WeaponDatTable;
+	UFUNCTION(BlueprintCallable)
+	void Init_Pickup_Weapon(FName IDD);
+	FORCEINLINE UDataTable* LoadObjFromPath(const FName& Path)
+	{
+		if (Path == NAME_None) return NULL;
+
+		return Cast<UDataTable>(StaticLoadObject(UDataTable::StaticClass(), NULL, *Path.ToString()));
+	}
 	
 	
 };

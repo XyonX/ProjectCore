@@ -47,13 +47,13 @@ AItem_Weapon::AItem_Weapon()
 		if(WeaponItem)
 		{
 
-			WeaponMesh = WeaponItem->SkeletalMesh;
-			Mag = WeaponItem->DefaultMag;
+			WeaponMesh->SetSkeletalMesh(WeaponItem->SkeletalMesh);
+			Mag->SetStaticMesh(WeaponItem->DefaultMag);
 			Mag->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),MagSocketName);
 			Muzzle->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),MuzzleSocketName);
 			if(WeaponItem->DefaultSight != nullptr)
 			{
-				Sight = WeaponItem->DefaultSight ;
+				Sight->SetStaticMesh(WeaponItem->DefaultSight);
 			}
 			Sight->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),SightSocketName);
 			if(WeaponItem->bCanGrip)
@@ -62,7 +62,7 @@ AItem_Weapon::AItem_Weapon()
 			}
 			if(WeaponItem->DefaultButtStock)
 			{
-				ButtStock=WeaponItem->DefaultButtStock;
+				ButtStock->SetStaticMesh(WeaponItem->DefaultButtStock);
 				ButtStock->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),ForeGripSocketName);
 			}
 		}
@@ -74,3 +74,5 @@ AItem_Weapon::AItem_Weapon()
 	
 	
 }
+
+

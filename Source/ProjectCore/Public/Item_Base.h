@@ -3,50 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Character/CoreCharacter.h"
 #include "GameFramework/Actor.h"
 #include"Engine/DataTable.h"
 #include "Player/CorePlayerController.h"
 #include "Item_Base.generated.h"
 
+class UStaticMeshComponent;
+class USkeletalMeshComponent;
+class ACoreCharacter;
 
-UENUM(BlueprintType)
-enum class EItemType : uint8
-{
-	Weapon = 0                UMETA(DisplayName = "Weapon"),
-	Accessory = 1          UMETA(DisplayName = "Accessory"),
-	Ammo = 2         UMETA(DisplayName = "Ammo"),
-	Health = 3			 UMETA(DisplayName = "Health"),
-	Boost = 4			 UMETA(DisplayName = "Boost"),
-	Helmet = 5			 UMETA(DisplayName = "Helmet"),
-	Vest = 6			     UMETA(DisplayName = "Vest"),
-	BackPack = 6			     UMETA(DisplayName = "BackPack"),
-	Fashion = 6			     UMETA(DisplayName = "Fashion"),
-
-	
-	
-};
-
-UENUM(BlueprintType)
-enum class EWeaponAccType : uint8
-{
-
-	Sight = 0                UMETA(DisplayName = "Sight"),
-	Muzzle = 1          UMETA(DisplayName = "Muzzle Weapon"),
-	ForeGrip = 2         UMETA(DisplayName = "Foregrip"),
-	Mag = 3			 UMETA(DisplayName = "Mag"),
-	ButtStoock = 4			 UMETA(DisplayName = "Buttstock"),
-	
-};
-
-UENUM(BlueprintType)
-enum class EWeaponPosition : uint8
-{
-	Left = 0		UMETA(DisplayName = "Left"),
-	Right =1		UMETA(DisplayName = "Right")	
-};
-
-// struct for item weapon 
 
 USTRUCT(BlueprintType)
 struct FItemWeapon : public FTableRowBase
@@ -54,6 +19,21 @@ struct FItemWeapon : public FTableRowBase
 
 	GENERATED_BODY()
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	class UStaticMesh*  StaticMesh;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	class USkeletalMesh* SkeletalMesh;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	class UStaticMesh* DefaultMag;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	class UStaticMesh* DefaultSight;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	class UStaticMesh* DefaultButtStock;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	TSubclassOf<USoundBase> FireSound;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	TSubclassOf<USoundBase> FireSoundSuppressed;
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 		FText Name;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
@@ -74,20 +54,7 @@ struct FItemWeapon : public FTableRowBase
 		float ReplaceClipTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 		bool bAutoMode;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-		UStaticMeshComponent* StaticMesh;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-		USkeletalMeshComponent* SkeletalMesh;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-		UStaticMeshComponent* DefaultMag;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-		UStaticMeshComponent* DefaultSight;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-		UStaticMeshComponent* DefaultButtStock;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-		USoundBase* FireSound;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-		USoundBase* FireSoundSuppressed;
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 		bool bCanSight;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
@@ -131,6 +98,47 @@ struct FItemWeapon : public FTableRowBase
 };
 
 
+UENUM(BlueprintType)
+enum class EItemType : uint8
+{
+	Weapon = 0                UMETA(DisplayName = "Weapon"),
+	Accessory = 1          UMETA(DisplayName = "Accessory"),
+	Ammo = 2         UMETA(DisplayName = "Ammo"),
+	Health = 3			 UMETA(DisplayName = "Health"),
+	Boost = 4			 UMETA(DisplayName = "Boost"),
+	Helmet = 5			 UMETA(DisplayName = "Helmet"),
+	Vest = 6			     UMETA(DisplayName = "Vest"),
+	BackPack = 6			     UMETA(DisplayName = "BackPack"),
+	Fashion = 6			     UMETA(DisplayName = "Fashion"),
+
+	
+	
+};
+
+UENUM(BlueprintType)
+enum class EWeaponAccType : uint8
+{
+
+	Sight = 0                UMETA(DisplayName = "Sight"),
+	Muzzle = 1          UMETA(DisplayName = "Muzzle Weapon"),
+	ForeGrip = 2         UMETA(DisplayName = "Foregrip"),
+	Mag = 3			 UMETA(DisplayName = "Mag"),
+	ButtStoock = 4			 UMETA(DisplayName = "Buttstock"),
+	
+};
+
+UENUM(BlueprintType)
+enum class EWeaponPosition : uint8
+{
+	Left = 0		UMETA(DisplayName = "Left"),
+	Right =1		UMETA(DisplayName = "Right")	
+};
+
+// struct for item weapon 
+
+
+
+
 USTRUCT(BlueprintType)
 struct FItemWeaponAcc : public FTableRowBase
 {
@@ -144,9 +152,9 @@ struct FItemWeaponAcc : public FTableRowBase
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Accsesories")
 	FText WeaponIDs ;
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Accsesories")
-	UStaticMeshComponent*WeaponAccMesh ;
+	UStaticMesh*WeaponAccMesh ;
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Accsesories")
-	UStaticMeshComponent*WeaponAccMMesh2;
+	UStaticMesh*WeaponAccMMesh2;
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Accsesories")
 	UTexture2D* Icon ;
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Accsesories")
@@ -175,7 +183,7 @@ struct FItemAmmo : public FTableRowBase
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Ammo")
 	FText Name ;
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Ammo")
-	UStaticMeshComponent*AmmoMesh ;
+	UStaticMesh*AmmoMesh ;
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Ammo")
 	int PickupAmmo;
 	UPROPERTY(EditAnywhere , BlueprintReadWrite , Category = " Weapon Ammo")
@@ -222,9 +230,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item",meta = (ExposeOnSpawn="true"))
 	int Amount ;
 
+	//FORCEINLINE FName GetID () {return ID; }
 	UFUNCTION(BlueprintCallable)
 	int GetWeight ();
 	UFUNCTION(BlueprintCallable)
 	void UpdateAmount(bool bAdd , bool bReduce , int Amountt );
+
+	void SetID(FName IDD);
 
 };

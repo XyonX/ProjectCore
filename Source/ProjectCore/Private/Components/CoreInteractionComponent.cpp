@@ -37,7 +37,7 @@ void UCoreInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	// ...
 }
 
-void UCoreInteractionComponent::Interact_Comp()
+void UCoreInteractionComponent::Interact_Comp() 
 {
 
 	
@@ -56,6 +56,7 @@ void UCoreInteractionComponent::Interact_Comp()
 	if(GetWorld()->LineTraceSingleByObjectType(HitResult,StartLoc,EndLoc,QueryParam))
 	{
 
+		DrawDebugLine(GetWorld(),StartLoc,EndLoc,FColor::Green,false,5.0f );
 		AActor*HitActor  = HitResult.GetActor() ;
 		APickup_Base*PickupObject = Cast<APickup_Base>(HitActor);
 		if(PickupObject)

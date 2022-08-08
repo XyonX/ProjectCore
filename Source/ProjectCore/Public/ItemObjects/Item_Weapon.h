@@ -9,6 +9,26 @@
 
 class USkeletalMeshComponent;
 
+UENUM(BlueprintType)
+enum class EWeaponType : uint8
+{
+	Default		UMETA(DisplayName = " Weapon Type Not Specified"),
+	RayCast      UMETA(DisplayName = "Raycast type"),
+	Projectile   UMETA(DisplayName = "Projectile Tyepe"),
+	Melee     UMETA(DisplayName = "Melee Type"),
+	
+	
+};
+UENUM()
+enum class EWeaponMode : uint8
+{
+	SingleFire		UMETA(DisplayName = " Single Shot"),
+	AutoFire      UMETA(DisplayName = "Auto Fire "),
+	
+	
+};
+
+
 UCLASS()
 class PROJECTCORE_API AItem_Weapon : public AItem_Base
 {
@@ -47,6 +67,7 @@ public:
 	FName ForeGripSocketName ;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="PickupWeapon")
 	FName ButtStockSocketName;
+	
 	
 	
 	

@@ -2,13 +2,14 @@
 
 
 #include "GameObstacles/ExplosiveBarrel.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/GameplayStatics.h"
 #include"Particles/ParticleSystemComponent.h"
 
 AExplosiveBarrel::AExplosiveBarrel()
 {
 
-	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
-	EffectComp ->SetupAttachment(RootComponent);
+	
 	Damage = 20 ;
 }
 
@@ -22,7 +23,12 @@ void AExplosiveBarrel::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 		if(OverlappedCharacter)
 		{
 			OverlappedCharacter->GetCharacterAttributeComp()->ApplyHealthChange(Damage);
+			if(ExplosionEffect)
+			{
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(),ExplosionEffect,GetActorLocation());
+			}
 			
+			Destroy();
 		}
 	}
 }

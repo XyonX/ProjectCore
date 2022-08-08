@@ -50,12 +50,13 @@ protected:
 public:
 	
 	UFUNCTION(BlueprintCallable)
-	void InitPickup(EItemType ItemTypee,FText Namee , FText UI_Prefixx  , UStaticMeshComponent*StaticMeshh );
+	void InitPickup(EItemType ItemTypee,FText Namee , FText UI_Prefixx  , UStaticMesh*StaticMeshh );
 	UFUNCTION(BlueprintCallable)
 	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION(BlueprintCallable)
 	virtual void OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	 
 	// declaring delegates onpickup and onpickupend collision event 
 
 	//UPROPERTY(BlueprintAssignable, meta = (FriendlyName = "OnPickUpCollisionEventDeligate") , Category = "Pickup")

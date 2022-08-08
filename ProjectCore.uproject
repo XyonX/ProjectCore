@@ -42,6 +42,14 @@
 		{
 			"Name": "Water",
 			"Enabled": true
+		},
+		{
+			"Name": "HDRIBackdrop",
+			"Enabled": true
+		},
+		{
+			"Name": "DataCharts",
+			"Enabled": true
 		}
 	]
 }

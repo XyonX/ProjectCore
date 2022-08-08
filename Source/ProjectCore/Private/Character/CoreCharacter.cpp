@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
+#include"Components/CoreInteractionComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "AbilitySystemComponent.h"
 // Sets default values
@@ -48,7 +49,9 @@ ACoreCharacter::ACoreCharacter()
 	
 	// Creating Ability System Component For Character
 	 AbilitySystemComp= CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
-	
+
+
+	InteractComponent = CreateDefaultSubobject<UCoreInteractionComponent>("Interact Component");
 	
 
 }
@@ -130,6 +133,22 @@ void ACoreCharacter::LookUp(float Value)
 	}
 }
 
+void ACoreCharacter::Interact_Character()
+{
+
+	if(InteractComponent)
+	{
+		InteractComponent->Interact_Comp();
+	}
+	
+}
+
+void ACoreCharacter::EquipeWeapon()
+{
+
+	
+}
+
 // Called to bind functionality to input
 void ACoreCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -139,6 +158,7 @@ void ACoreCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis ("Turn" , this , &ACoreCharacter::Turn);
 	PlayerInputComponent->BindAxis ("LookUp" , this , &ACoreCharacter::LookUp);
 	PlayerInputComponent->BindAction("Jump",IE_Pressed,this , &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Interact",IE_Pressed,this,&ACoreCharacter::Interact_Character);
 
 	
 

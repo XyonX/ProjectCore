@@ -10,14 +10,16 @@
 #include "AbilitySystemInterface.h"
 #include "Abilities/GameplayAbility.h"
 #include "Abilities/GameplayAbility.h"
+#include "Components/CoreInteractionComponent.h"
+#include "ItemObjects/Item_Weapon.h"
 #include "CoreCharacter.generated.h"
 
 class UAbilitySystemComponent ;
-
 class USpringArmComponent ;
 class UCameraComponent ;
 class APlayerController;
 class UCharacterAttributeComponent;
+class AItem_Weapon;
 UCLASS()
 class PROJECTCORE_API ACoreCharacter : public ACharacter , public IAbilitySystemInterface
 {
@@ -40,14 +42,23 @@ protected:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Camera")
 	UCameraComponent * Camera ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Character")
+	class UCoreInteractionComponent*InteractComponent ;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+	TSubclassOf<AItem_Weapon>PlayerWeapon;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
+	TSubclassOf<UCameraShakeBase>WeaponFireShake;
 
 
-private:
 	
 
 
 	
 public:	
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Character")
@@ -61,6 +72,9 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Character")
 	float LookUpRate ;
 
+
+	// FUNCTIONS 
+
 	UFUNCTION()
 	void MoveForward (float Value );
 	UFUNCTION()
@@ -69,16 +83,18 @@ public:
 	void Turn (float Value) ;
 	UFUNCTION()
 	void LookUp(float Value);
+	UFUNCTION()
+	void Interact_Character ();
 	//void Jump_Custom_Pressed ();
+	UFUNCTION(BlueprintCallable)
+	void EquipeWeapon();
 	
 
+
+	// Storing Controller Reference 
 	UPROPERTY(VisibleAnywhere ,BlueprintReadWrite ,Category = "Character ")
 	APlayerController*MyPlayerControlRef ;
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Character")
-	APlayerController* PlayerController ;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
 	// Setting Up Getters
@@ -97,6 +113,15 @@ public:
 	
 	UFUNCTION(BlueprintCallable,Category="Character")
 	void AquireAbility(TSubclassOf<UGameplayAbility>AbilityToAquire);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+	AItem_Weapon* PlayerEquippedWeapon;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+	AItem_Weapon* Weapon1_Primary;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+	AItem_Weapon* Weapon2_Secondary;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+	AItem_Weapon* Weapon3_Melee;
 	
 	
 

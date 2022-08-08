@@ -3,6 +3,9 @@
 
 #include "Item_Base.h"
 #include "Kismet/GameplayStatics.h"
+#include"Character/CoreCharacter.h"
+#include"Components/StaticMeshComponent.h"
+#include"Components/SkeletalMeshComponent.h"
 
 // Sets default values
 AItem_Base::AItem_Base()
@@ -58,5 +61,10 @@ void AItem_Base::UpdateAmount(bool bAdd, bool bReduce, int Amountt)
 	{
 		Amount = Amountt;
 	}
+}
+
+void AItem_Base::SetID(FName IDD)
+{
+	ID =IDD;
 }
 

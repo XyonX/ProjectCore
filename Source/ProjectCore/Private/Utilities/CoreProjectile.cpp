@@ -24,6 +24,8 @@ ACoreProjectile::ACoreProjectile()
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComp");
 	MovementComp->InitialSpeed = 1000.f;
 	MovementComp->bRotationFollowsVelocity = true ;
+	MovementComp ->bInitialVelocityInLocalSpace = true;
+
 	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this,&ACoreProjectile::OnOverlapBegin);
 	Damage = 20;
 }
