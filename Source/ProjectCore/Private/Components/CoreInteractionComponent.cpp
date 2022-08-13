@@ -40,7 +40,10 @@ void UCoreInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 void UCoreInteractionComponent::Interact_Comp() 
 {
 
-	
+
+	FVector ViewpointLoc ;
+	FRotator ViewpointRot ;
+	OwnerCharacter->GetActorEyesViewPoint(ViewpointLoc,ViewpointRot);
 	FHitResult HitResult;
 	FVector StartLoc ;
 	FRotator ControllerRotation ;
@@ -50,10 +53,11 @@ void UCoreInteractionComponent::Interact_Comp()
 	{
 		CameraLoc = OwnerCharacter->GetCameraComponent()->GetComponentLocation();
 		ControllerRotation = OwnerCharacter ->GetPlayerController()->GetControlRotation();
-		EndLoc = StartLoc + ControllerRotation.Vector()*1000;
+		EndLoc = ViewpointLoc + ControllerRotation.Vector()*1000;
 	}
 	FCollisionObjectQueryParams QueryParam ;
-	if(GetWorld()->LineTraceSingleByObjectType(HitResult,StartLoc,EndLoc,QueryParam))
+	QueryParam.AddObjectTypesToQuery(ECC_WorldDynamic);
+	if(GetWorld()->LineTraceSingleByObjectType(HitResult,ViewpointLoc,EndLoc,QueryParam))
 	{
 
 		DrawDebugLine(GetWorld(),StartLoc,EndLoc,FColor::Green,false,5.0f );

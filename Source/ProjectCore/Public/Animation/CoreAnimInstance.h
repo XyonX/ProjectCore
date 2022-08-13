@@ -26,5 +26,15 @@ private:
 	bool bIsInAir ;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="AnimInstance",meta = (AllowPrivateAccess="true"));
 	bool bIsAccelerating ;
+
+
+	// offset yaw for straffing 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="AnimInstance",meta = (AllowPrivateAccess="true"))
+	float MovementOffset ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="AnimInstance",meta = (AllowPrivateAccess="true"))
+	float LastMovementOffset ;
+	
+	
+	
 	
 };

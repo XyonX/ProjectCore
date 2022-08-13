@@ -4,6 +4,8 @@
 #include "Animation/CoreAnimInstance.h"
 #include"Character/CoreCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetMaterialLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
 
 void UCoreAnimInstance::NativeInitializeAnimation()
 {
@@ -26,5 +28,15 @@ void UCoreAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 		bIsInAir = MyCharacterRef->GetCharacterMovement()->IsFalling();
 		bIsAccelerating= MyCharacterRef->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.f ? true : false ;
+
+		FRotator AimRotation = MyCharacterRef->GetBaseAimRotation();
+		FRotator MovementRotation = UKismetMathLibrary::MakeRotFromX(MyCharacterRef->GetVelocity());
+
+		MovementOffset = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation,AimRotation).Yaw;
+		
+		if(bIsAccelerating)
+		{
+			LastMovementOffset=MovementOffset;
+		}
 	}
 }

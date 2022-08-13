@@ -26,14 +26,29 @@ struct FItemWeapon : public FTableRowBase
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 	class UStaticMesh* DefaultMag;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	FName MagSocketName ;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 	class UStaticMesh* DefaultSight;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	FName SightSocketName ;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	class UStaticMesh* DefaultForeGrip;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	FName ForeGripSocketName ;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	class UStaticMesh* DefaultMuzzle;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	FName MuzzleSocketName ;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 	class UStaticMesh* DefaultButtStock;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	FName ButtStockName ;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 	TSubclassOf<USoundBase> FireSound;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 	TSubclassOf<USoundBase> FireSoundSuppressed;
-	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	FName CharacterStockName ;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 		FText Name;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
@@ -93,6 +108,7 @@ struct FItemWeapon : public FTableRowBase
 		float Velocity500;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 		float WalkSpeedPer;
+	
 
 
 };

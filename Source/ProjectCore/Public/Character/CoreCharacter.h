@@ -52,7 +52,7 @@ protected:
 
 	
 
-
+ 
 	
 public:	
 
@@ -71,7 +71,15 @@ public:
 	float TurnRate ;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Character")
 	float LookUpRate ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Character")
+	bool bHasWeaponEquipped;
+	bool bIsMovingRight;
 
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category="Character")
+	bool  bWantLearpedMovement ;
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category="Character")
+	bool bFreeLookupRotate ;
+	
 
 	// FUNCTIONS 
 
@@ -85,9 +93,25 @@ public:
 	void LookUp(float Value);
 	UFUNCTION()
 	void Interact_Character ();
-	//void Jump_Custom_Pressed ();
+	
+	UFUNCTION(BlueprintCallable)
+	void Fire();
+	UFUNCTION()
+	void AutoFire_Start();
+	UFUNCTION()
+	void AutoFire_Stop();
+	UFUNCTION()
+	void SingleFire();
 	UFUNCTION(BlueprintCallable)
 	void EquipeWeapon();
+	UFUNCTION()
+	void Ads_Pressed();
+	UFUNCTION()
+	void Ads_Released();
+	void FreeLookup_Pressed();
+	void FreeLookup_Released();
+	AItem_Weapon* SpawnWeaponFromID(FName IDD) ;
+	
 	
 
 
@@ -122,7 +146,16 @@ public:
 	AItem_Weapon* Weapon2_Secondary;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	AItem_Weapon* Weapon3_Melee;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	
+	FName WeaponIDs[3] ;
+
+	FORCEINLINE UDataTable* LoadObjFromPath(const FName& Path)
+	{
+		if (Path == NAME_None) return NULL;
+
+		return Cast<UDataTable>(StaticLoadObject(UDataTable::StaticClass(), NULL, *Path.ToString()));
+	}
 	
 
 };

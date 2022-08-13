@@ -130,7 +130,7 @@ void APickup_Base::OnComponentEndOverlap(class UPrimitiveComponent* OverlappedCo
 void APickup_Base::Interact_Implementation(ACoreCharacter* InstigatorCharacter)
 {
 	//ICoreInterface::Interact_Implementation(InstigatorCharacter);
-
+/*
 	if(bCanPickup)
 	{
 		
@@ -140,7 +140,7 @@ void APickup_Base::Interact_Implementation(ACoreCharacter* InstigatorCharacter)
 		Destroy();
 		InteractWidget->SetVisibility(false);
 
-	}
+	}*/
 	
 
 	

@@ -37,6 +37,8 @@ class PROJECTCORE_API AItem_Weapon : public AItem_Base
 
 public:
 
+	virtual void BeginPlay() override;
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="ItemObject")
 	USkeletalMeshComponent*WeaponMesh;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="ItemObject")
@@ -67,8 +69,22 @@ public:
 	FName ForeGripSocketName ;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="PickupWeapon")
 	FName ButtStockSocketName;
+	//UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="PickupWeapon")
+	//FItemWeapon	WeaponItemData ;
+
+	UFUNCTION(BlueprintCallable)
+	void Init_Weapon_Item(FName IDD);
+	//FName GetPlayerS
+
+	FORCEINLINE UDataTable* LoadObjFromPath(const FName& Path)
+	{
+		if (Path == NAME_None) return NULL;
+
+		return Cast<UDataTable>(StaticLoadObject(UDataTable::StaticClass(), NULL, *Path.ToString()));
+	}
 	
-	
+	FItemWeapon* GetWeaponDataFromID(FName IDD);
+	FItemWeapon* GetWeaponData();
 	
 	
 	
