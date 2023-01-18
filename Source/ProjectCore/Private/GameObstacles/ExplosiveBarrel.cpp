@@ -19,7 +19,12 @@ void AExplosiveBarrel::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	Super::OnOverlapBegin(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 	if(OtherActor)
 	{
-		ACoreCharacter * OverlappedCharacter = Cast<ACoreCharacter>(OtherActor);
+		UCharacterAttributeComponent*AttributeComp=  Cast<UCharacterAttributeComponent>(OtherActor->GetComponentByClass(UCharacterAttributeComponent::StaticClass()));
+		if(AttributeComp)
+		{
+			AttributeComp->ApplyHealthChange(50);
+		}
+		/*ACoreCharacter * OverlappedCharacter = Cast<ACoreCharacter>(OtherActor);
 		if(OverlappedCharacter)
 		{
 			OverlappedCharacter->GetCharacterAttributeComp()->ApplyHealthChange(Damage);
@@ -29,6 +34,6 @@ void AExplosiveBarrel::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 			}
 			
 			Destroy();
-		}
+		}*/
 	}
 }

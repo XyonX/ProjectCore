@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "Character/CoreCharacter.h"
 #include "PickupObjects/Pickup_Base.h"
+#include "Kismet/GameplayStatics.h"
 #include "Utilities/CoreInterface.h"
 
 // Sets default values for this component's properties
@@ -40,6 +41,24 @@ void UCoreInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 void UCoreInteractionComponent::Interact_Comp() 
 {
 
+	FVector2D ViewportSize2D;
+	if(GEngine && GEngine->GameViewport)
+	{
+		GEngine->GameViewport->GetViewportSize(ViewportSize2D);
+	}
+	FVector2D CrossHairLoc(ViewportSize2D.X/2,ViewportSize2D.Y/2);
+
+	bool bViewport3D;
+	FVector ViewportLoc_3D;
+	FVector ViewportDir_3D;
+	FVector StartLoc_Viewport;
+	FVector EndLocation_Viewport;
+	
+	// Projecting the 2d onto 3d
+	 bViewport3D = UGameplayStatics::DeprojectScreenToWorld(UGameplayStatics::GetPlayerController(this,0),CrossHairLoc,ViewportLoc_3D,ViewportDir_3D);
+
+
+
 
 	FVector ViewpointLoc ;
 	FRotator ViewpointRot ;
@@ -57,7 +76,10 @@ void UCoreInteractionComponent::Interact_Comp()
 	}
 	FCollisionObjectQueryParams QueryParam ;
 	QueryParam.AddObjectTypesToQuery(ECC_WorldDynamic);
-	if(GetWorld()->LineTraceSingleByObjectType(HitResult,ViewpointLoc,EndLoc,QueryParam))
+
+	StartLoc_Viewport = ViewportLoc_3D;
+	EndLocation_Viewport=StartLoc_Viewport+ViewportDir_3D*1000;
+	if(GetWorld()->LineTraceSingleByObjectType(HitResult,StartLoc_Viewport,EndLocation_Viewport,QueryParam))
 	{
 
 		DrawDebugLine(GetWorld(),StartLoc,EndLoc,FColor::Green,false,5.0f );

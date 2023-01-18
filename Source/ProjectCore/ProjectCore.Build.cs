@@ -8,7 +8,7 @@ public class ProjectCore : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","UMG", "HeadMountedDisplay" , "GameplayTags","OnlineSubsystemSteam","OnlineSubsystem", "GameplayAbilities" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","UMG", "HeadMountedDisplay" , "GameplayTags","OnlineSubsystemSteam","OnlineSubsystem", "GameplayAbilities","AIModule", "GameplayTasks", "NavigationSystem" });
 		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 	}
 }

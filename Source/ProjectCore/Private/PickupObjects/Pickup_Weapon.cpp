@@ -21,6 +21,7 @@ void APickup_Weapon::BeginPlay()
 
 void APickup_Weapon::Init_Pickup_Weapon(FName IDD)
 {
+	ID=IDD;
 	//WeaponDatTable = LoadObjFromPath<UDataTable>(TEXT("DataTable'/Game/Datas/DT_Item_Weapon.DT_Item_Weapon'"));
 	WeaponDatTable = LoadObjFromPath(TEXT("DataTable'/Game/Datas/DT_Item_Weapon.DT_Item_Weapon'"));
 
@@ -88,7 +89,8 @@ void APickup_Weapon::Interact_Implementation(ACoreCharacter* InstigatorCharacter
 		}
 		InstigatorCharacter->Weapon1_Primary->SetID(ID);
 		InstigatorCharacter->Weapon1_Primary->Init_Weapon_Item(ID);*/
-		InstigatorCharacter->WeaponIDs[0] = ID;
+		InstigatorCharacter->WeaponIDs[1] = ID;
+		InstigatorCharacter->SpawnWeapon_Primary();
 		InteractWidget->SetVisibility(false);
 		Destroy();
 		

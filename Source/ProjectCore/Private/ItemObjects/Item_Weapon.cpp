@@ -59,38 +59,57 @@ void AItem_Weapon::BeginPlay()
 	
 }
 
+void AItem_Weapon::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	GetHandSocketLocation();
+	
+}
+
 void AItem_Weapon::Init_Weapon_Item(FName IDD)
 {
 
 	
-
+	
 	WeaponDatTable=LoadObjFromPath(TEXT("DataTable'/Game/Datas/DT_Item_Weapon.DT_Item_Weapon'"));
 	
 	if(WeaponDatTable)
 	{
 
 		FItemWeapon*WeaponItem = WeaponDatTable->FindRow<FItemWeapon>(IDD,"Context");
+		CharacterSocket = WeaponItem->CharacterStockName;
+		HandIKSocket = WeaponItem->HandIKSocketName;
 
 		if(WeaponItem)
 		{
 
-			WeaponMesh->SetSkeletalMesh(WeaponItem->SkeletalMesh);
-			Mag->SetStaticMesh(WeaponItem->DefaultMag);
-			Mag->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),MagSocketName);
-			Muzzle->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),MuzzleSocketName);
+			if(WeaponItem->SkeletalMesh)
+			{
+				WeaponMesh->SetSkeletalMesh(WeaponItem->SkeletalMesh);
+			}
+			if(WeaponItem->DefaultMag)
+			{
+				Mag->SetStaticMesh(WeaponItem->DefaultMag);
+			}
+			Mag->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),WeaponItem->MagSocketName);
+			if(WeaponItem->DefaultMuzzle)
+			{
+				Muzzle->SetStaticMesh(WeaponItem->DefaultMuzzle);
+			}
+			Muzzle->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),WeaponItem->MuzzleSocketName);
 			if(WeaponItem->DefaultSight != nullptr)
 			{
 				Sight->SetStaticMesh(WeaponItem->DefaultSight);
 			}
-			Sight->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),SightSocketName);
-			if(WeaponItem->bCanGrip)
+			Sight->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),WeaponItem->SightSocketName);
+			if(WeaponItem->bCanGrip && WeaponItem->bCanGrip)
 			{
-				ForeGrip->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),ForeGripSocketName);
+				ForeGrip->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),WeaponItem->ForeGripSocketName);
 			}
-			if(WeaponItem->DefaultButtStock)
+			if(WeaponItem->DefaultButtStock )
 			{
 				ButtStock->SetStaticMesh(WeaponItem->DefaultButtStock);
-				ButtStock->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),ForeGripSocketName);
+				ButtStock->AttachToComponent(WeaponMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true),WeaponItem->ButtStockName);
 			}
 
 
@@ -157,5 +176,24 @@ FItemWeapon* AItem_Weapon::GetWeaponData()
 		return WeaponItem;
 	
 }
+
+FVector AItem_Weapon::GetHandSocketLocation()
+{
+	
+	if(WeaponMesh)
+	{
+		IKHandSocketLocation =WeaponMesh->GetSocketLocation(HandIKSocket) ;
+		UE_LOG(LogTemp,Warning,TEXT("Socket Location IS : (%f,%f,%f)"),IKHandSocketLocation.X,IKHandSocketLocation.Y,IKHandSocketLocation.Z);
+		return IKHandSocketLocation ;
+		
+		
+	}
+	else
+		return FVector(0.0f,0.0f,0.0f);
+
+	
+}
+
+
 
 

@@ -7,18 +7,6 @@
 #include "Item_Weapon.generated.h"
 
 
-class USkeletalMeshComponent;
-
-UENUM(BlueprintType)
-enum class EWeaponType : uint8
-{
-	Default		UMETA(DisplayName = " Weapon Type Not Specified"),
-	RayCast      UMETA(DisplayName = "Raycast type"),
-	Projectile   UMETA(DisplayName = "Projectile Tyepe"),
-	Melee     UMETA(DisplayName = "Melee Type"),
-	
-	
-};
 UENUM()
 enum class EWeaponMode : uint8
 {
@@ -36,8 +24,11 @@ class PROJECTCORE_API AItem_Weapon : public AItem_Base
 	AItem_Weapon();
 
 public:
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Reference")
+	class ACoreCharacter*OwnerCharacter;
 
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="ItemObject")
 	USkeletalMeshComponent*WeaponMesh;
@@ -69,6 +60,10 @@ public:
 	FName ForeGripSocketName ;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="PickupWeapon")
 	FName ButtStockSocketName;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="PickupWeapon")
+	FName CharacterSocket;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="PickupWeapon")
+	FName HandIKSocket ;
 	//UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="PickupWeapon")
 	//FItemWeapon	WeaponItemData ;
 
@@ -85,6 +80,14 @@ public:
 	
 	FItemWeapon* GetWeaponDataFromID(FName IDD);
 	FItemWeapon* GetWeaponData();
+	FORCEINLINE FName GetID () {return ID;}
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="PickupWeapon")
+	FVector IKHandSocketLocation ;
+	UFUNCTION(BlueprintCallable)
+	FVector GetHandSocketLocation();
+
+	
+	
 	
 	
 	

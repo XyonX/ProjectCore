@@ -12,13 +12,56 @@ class UStaticMeshComponent;
 class USkeletalMeshComponent;
 class ACoreCharacter;
 
+UENUM(BlueprintType)
+enum class EWeaponCategoory	: uint8
+{
+	Default					UMETA(DisplayName = "Default Weapon"),					
+	Light					UMETA(DisplayName = "Light Weapon"),
+	Heavy					UMETA(DisplayName = "Heavy Weapon "),
+	Sniper					UMETA(DisplayName = "Sniper "),
+	Melee					UMETA(DisplayName = "Melee "),
+	Throwable				UMETA(DisplayName = "Throwables "),
+	
+};
+
+UENUM(BlueprintType)
+enum class EPlayerStatus : uint8
+{
+	Idle					UMETA(DisplayName = "Idle0"),
+	Walking_Gen				UMETA(DisplayName = "WALKING1"),
+	Walking_GunGen			UMETA(DisplayName = "WALKING2"),
+	Walking_GunAim			UMETA(DisplayName = "WALKING3"),
+	Jog_Gen					UMETA(DisplayName = "Jog4"),
+	Jog_GunGen				UMETA(DisplayName = "Jog5"),
+	Jog_GunAim				UMETA(DisplayName = "Jog6"),
+	Sprinting_Gen			UMETA(DisplayName = "SPRINTING7"),
+	Sprint_GunGen			UMETA(DisplayName = "Sprinting8"),
+	Crouching_Gen			UMETA(DisplayName = "CROUCHING9"),
+	Crouching_GunGen		UMETA(DisplayName = "CROUCHING10"),
+	Crouching_GunAim		UMETA(DisplayName = "CROUCHING11"),
+	Dead					UMETA(DisplayName = "Dead12"),
+	
+};
+UENUM(BlueprintType)
+enum class EWeaponType : uint8
+{
+	Default		UMETA(DisplayName = " Weapon Type Not Specified"),
+	RayCast      UMETA(DisplayName = "Raycast type"),
+	Projectile   UMETA(DisplayName = "Projectile Tyepe"),
+	Melee     UMETA(DisplayName = "Melee Type"),
+	
+	
+};
 
 USTRUCT(BlueprintType)
 struct FItemWeapon : public FTableRowBase
 {
 
 	GENERATED_BODY()
-
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	EWeaponType WeaponType;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	EWeaponCategoory WeaponCategoory;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 	class UStaticMesh*  StaticMesh;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
@@ -43,10 +86,22 @@ struct FItemWeapon : public FTableRowBase
 	class UStaticMesh* DefaultButtStock;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 	FName ButtStockName ;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	class UAnimMontage* FireMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FX")
+	class UParticleSystem* MuzzleFlash;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FX")
+	class UParticleSystem* ImpactParticle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	FName HandIKSocketName ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Audio")
+	USoundBase*FireSound;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-	TSubclassOf<USoundBase> FireSound;
+	USoundBase* FireSoundSuppressed;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
-	TSubclassOf<USoundBase> FireSoundSuppressed;
+	TSubclassOf<UCameraShakeBase> FireCameraShake;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+	TSubclassOf<UDamageType>DamageType;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 	FName CharacterStockName ;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
@@ -68,8 +123,9 @@ struct FItemWeapon : public FTableRowBase
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 		float ReplaceClipTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
+		float WeaponRange;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 		bool bAutoMode;
-	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
 		bool bCanSight;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ItemWeapon")
@@ -253,5 +309,6 @@ public:
 	void UpdateAmount(bool bAdd , bool bReduce , int Amountt );
 
 	void SetID(FName IDD);
+	
 
 };
